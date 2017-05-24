@@ -1,0 +1,141 @@
+# {{ ansible_managed }}
+
+###
+# General
+###
+
+# When "listen" directive is enabled, vsftpd runs in standalone mode and
+# listens on IPv4 sockets. This directive cannot be used in conjunction
+# with the listen_ipv6 directive.
+listen=YES
+
+# This directive enables listening on IPv6 sockets. By default, listening
+# on the IPv6 "any" address (::) will accept connections from both IPv6
+# and IPv4 clients. It is not necessary to listen on *both* IPv4 and IPv6
+# sockets. If you want that (perhaps because you want to listen on specific
+# addresses) then you must run two copies of vsftpd with two configuration
+# files.
+# Make sure, that one of the listen options is commented !!
+listen_ipv6=NO
+
+# Uncomment this to allow local users to log in.
+# When SELinux is enforcing check for SE bool ftp_home_dir
+{% if vsftpd_enable_local_users == true %}
+local_enable=YES
+{% else %}
+local_enable=NO
+{% endif %}
+
+# Uncomment this to enable any form of FTP write command.
+write_enable=YES
+
+# Default umask for local users is 077. You may wish to change this to 022,
+# if your users expect that (022 is used by most other ftpd's)
+local_umask=022
+
+# Activate directory messages - messages given to remote users when they
+# go into a certain directory.
+dirmessage_enable=NO
+
+# Activate logging
+xferlog_enable=YES
+log_ftp_protocol=YES
+dual_log_enable=YES
+syslog_enable=YES
+
+# If you want, you can have your log file in standard ftpd xferlog format.
+# Note that the default log file location is /var/log/xferlog in this case.
+xferlog_std_format=YES
+
+# Make sure PORT transfer connections originate from port 20 (ftp-data).
+connect_from_port_20=YES
+
+# You may change the default value for timing out an idle session.
+idle_session_timeout=300
+
+# You may change the default value for timing out a data connection.
+data_connection_timeout=120
+
+# You may fully customise the login banner string:
+{% if vsftpd_ftp_banner %}
+ftpd_banner={{ vsftpd_ftp_banner }}
+{% else %}
+ftpd_banner=Private FTP server
+{% endif %}
+
+# Passive connections
+pasv_enable=YES
+pasv_promiscuous=NO
+{% if vsftpd_passive_min_port and vsftpd_passive_max_port %}
+pasv_min_port={{ vsftpd_passive_min_port }}
+pasv_max_port={{ vsftpd_passive_max_port }}
+{% endif %}
+{% if vsftpd_passive_address %}
+pasv_address={{ vsftpd_passive_address }}
+{% endif %}
+port_enable=YES
+
+
+###
+# Anonymous part
+###
+
+# Allow anonymous FTP? (Beware - allowed by default if you comment this out).
+anonymous_enable=NO
+
+# Uncomment this to allow the anonymous FTP user to upload files. This only
+# has an effect if the above global write enable is activated. Also, you will
+# obviously need to create a directory writable by the FTP user.
+# When SELinux is enforcing check for SE bool allow_ftpd_anon_write, allow_ftpd_full_access
+anon_upload_enable=NO
+
+# Uncomment this if you want the anonymous FTP user to be able to create
+# new directories.
+anon_mkdir_write_enable=NO
+
+
+###
+# Chrooting
+###
+
+# You may specify an explicit list of local users to chroot() to their home
+# directory. If chroot_local_user is YES, then this list becomes a list of
+# users to NOT chroot().
+# (Warning! chroot'ing can be very dangerous. If using chroot, make sure that
+# the user does not have write access to the top level directory within the
+# chroot)
+{% if vsftpd_chroot_local_users == true %}
+chroot_local_user=YES
+{% else %}
+chroot_local_user=NO
+{% endif %}
+allow_writeable_chroot=NO
+
+
+###
+# Auth
+###
+{% if vsftpd_enable_local_users == true %}
+pam_service_name=vsftpd
+{% endif %}
+
+###
+# Security / SSL part
+###
+
+# Enable SSL
+{% if vsftpd_ssl_enabled == true %}
+ssl_enable=YES
+ssl_tlsv1=YES
+ssl_sslv2=NO
+ssl_sslv3=NO
+ssl_ciphers=HIGH
+
+force_local_data_ssl=YES
+force_local_logins_ssl=YES
+
+rsa_cert_file={{ vsftpd_ssl_certificate }}
+rsa_private_key_file={{ vsftpd_ssl_privkey }}
+{% else %}
+ssl_enable=NO
+{% endif %}
