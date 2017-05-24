@@ -28,15 +28,23 @@ $ git clone https://github.com/Xat59/ansible-vsftpd
   * required : No 
   * default value : false
   * choices : true or false
-
-
-| vsftpd_ftp_banner | No | Private FTP server | | Greeting banner when a connection first comes in
-| vsftpd_passive_min_port | No | | | Minimum port number for data connection <br /> **Note** : useful for firewall configuration
-| vsftpd_passive_max_port | No | | | Maximum port number for data connection <br /> **Note** : useful for firewall configuration
-| vsftpd_passive_address | No | | | IP address for connection
-| vsftpd_ssl_enabled | No | false | true or false | Enable or disable SSL support
-| vsftpd_ssl_privkey | No | | | Path to the SSL key certificate <br /> **Required** : if vsftpd_ssl_enabled is 'True'
-| vsftpd_ssl_certificate | No | | | Path to the SSL certificate <br /> **Required** : if vsftpd_ssl_enabled is 'True'
+* **vsftpd_ftp_banner** : Greeting banner when a connection first comes in
+  * required : No
+  * default value : Private FTP server 
+* **vsftpd_passive_min_port** : Minimum port number for data connection <br /> **Note** : useful for firewall configuration
+  * required : No
+* **vsftpd_passive_max_port** : Maximum port number for data connection <br /> **Note** : useful for firewall configuration
+  * required : No
+* **vsftpd_passive_address** : IP address for connection
+  * required : No 
+* **vsftpd_ssl_enabled** : Enable or disable SSL support
+  * required : No
+  * default value : false
+  * choices : true or false
+* **vsftpd_ssl_privkey** : Path to the SSL key certificate <br /> **Required** : if vsftpd_ssl_enabled is 'True'
+  * required : No
+* **vsftpd_ssl_certificate** : Path to the SSL certificate <br /> **Required** : if vsftpd_ssl_enabled is 'True'
+  * required : No
 
 # Usage
 
