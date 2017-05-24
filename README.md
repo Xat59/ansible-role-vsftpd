@@ -21,11 +21,13 @@ $ git clone https://github.com/Xat59/ansible-vsftpd
 # Variables
 
 - **vsftpd_enable_local_users** : Enable local users connection
+
 required : No 
 default value : true
 choices : true or false
 
 - **vsftpd_chroot_local_users** : Enable chrooting for local users <br /> **Note** : chrooting users needs the user to be chrooted in a valid (owner and mode) chroot path
+
 required : No 
 default value : false
 choices : true or false
