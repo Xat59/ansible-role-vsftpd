@@ -41,10 +41,10 @@ $ git clone https://github.com/Xat59/ansible-vsftpd
   * required : No
   * default value : false
   * choices : true or false
-* **vsftpd_ssl_privkey** : Path to the SSL key certificate <br /> **Required** : if vsftpd_ssl_enabled is 'True'
-  * required : No
-* **vsftpd_ssl_certificate** : Path to the SSL certificate <br /> **Required** : if vsftpd_ssl_enabled is 'True'
-  * required : No
+* **vsftpd_ssl_privkey** : Path to the SSL key certificate
+  * required : if vsftpd_ssl_enabled is 'True'
+* **vsftpd_ssl_certificate** : Path to the SSL certificate
+  * required : if vsftpd_ssl_enabled is 'True'
 
 # Usage
 
