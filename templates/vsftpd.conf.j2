@@ -8,6 +8,9 @@
 # listens on IPv4 sockets. This directive cannot be used in conjunction
 # with the listen_ipv6 directive.
 listen=YES
+{% if vsftpd_ssl_implicit == true and vsftpd_ssl_enabled == true %}
+listen_port=990
+{% endif %}
 
 # This directive enables listening on IPv6 sockets. By default, listening
 # on the IPv6 "any" address (::) will accept connections from both IPv6
@@ -126,6 +129,9 @@ pam_service_name=vsftpd
 # Enable SSL
 {% if vsftpd_ssl_enabled == true %}
 ssl_enable=YES
+{% if vsftpd_ssl_implicit == true %}
+implicit_ssl=YES
+{% endif %}
 ssl_tlsv1=YES
 ssl_sslv2=NO
 ssl_sslv3=NO

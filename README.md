@@ -54,6 +54,12 @@ $ git clone https://github.com/Xat59/ansible-vsftpd
 * **vsftpd_ssl_certificate** : Path to the SSL certificate
   * required : if vsftpd_ssl_enabled is 'True'
 
+* **vsftpd_ssl_implicit** : Enable or disable implicit TLS <br /> If **enabled**, an SSL handshake is the first thing expect on all connections (FTPs) <br /> If **disabled**, explicit TLS is enabled (FTPes)
+  * required : No
+  * default value : true
+  * choices : true or false
+
+
 # Usage
 
 - Unsecure FTP
@@ -66,7 +72,7 @@ $ git clone https://github.com/Xat59/ansible-vsftpd
     - role: vsftpd
 ```
 
-- Secure FTP with explicit TLS
+- Secure FTP with explicit TLS (FTPes)
 
 ```
 ---
@@ -77,7 +83,23 @@ $ git clone https://github.com/Xat59/ansible-vsftpd
     vsftpd_ssl_enabled: true
     vsftpd_ssl_privkey: /etc/vsftpd/ssl/vsftpd.key
     vsftpd_ssl_certificate: /etc/vsftpd/ssl/vsftpd.crt
+    vsftpd_ssl_implicit: false
 ```
+
+- Secure FTP with implicit TLS (FTPs)
+
+```
+---
+- hosts: host01
+  gather_facts: yes
+  become: yes
+    - role: vsftpd
+    vsftpd_ssl_enabled: true
+    vsftpd_ssl_privkey: /etc/vsftpd/ssl/vsftpd.key
+    vsftpd_ssl_certificate: /etc/vsftpd/ssl/vsftpd.crt
+    vsftpd_ssl_implicit: true
+```
+
 
 # Contribute
 
