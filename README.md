@@ -61,7 +61,7 @@ $ git clone https://github.com/Xat59/ansible-vsftpd
   * default value : true
   * choices : true or false
 
-* **vsftpd_systemd_service_name** : Name of the vsftpd instance <br /> **Note** : the vsftpd configuration file and systemd service file will be inherited from this name <br /> **Example** with vsftpd_systemd_service_name set to 'vsftpd-implicit', the configuration file will be /etc/vsftpd/vsftpd-implicit.conf and systemd service file will be vsftpd@vsftpd-implicit.service
+* **vsftpd_systemd_service_name** : Name of the vsftpd instance <br /> **Note** : If **redefined**, the vsftpd configuration file and systemd service file will be inherited from this name. If **not redefined**, the configuration fil and systemd service file will keep their default values. <br /> **Example** with vsftpd_systemd_service_name set to 'vsftpd-implicit', the configuration file will be /etc/vsftpd/vsftpd-implicit.conf and systemd service file will be vsftpd@vsftpd-implicit.service.
   * required: No
   * default value : vsftpd
 
