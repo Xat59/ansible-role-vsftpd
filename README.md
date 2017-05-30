@@ -6,6 +6,7 @@ Features :
 - local users
 - chrooting
 - unsecure / tls v1
+- explicit and implicit TLS
 - several vsftpd instance
 
 Does not cover :
