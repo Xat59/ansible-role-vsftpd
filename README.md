@@ -6,6 +6,7 @@ Features :
 - local users
 - chrooting
 - unsecure / tls v1
+- several vsftpd instance
 
 Does not cover :
 
@@ -58,6 +59,10 @@ $ git clone https://github.com/Xat59/ansible-vsftpd
   * required : No
   * default value : true
   * choices : true or false
+
+* **vsftpd_systemd_service_name** : Name of the vsftpd instance <br /> **Note** : the vsftpd configuration file and systemd service file will be inherited from this name <br /> **Example** with vsftpd_systemd_service_name set to 'vsftpd-implicit', the configuration file will be /etc/vsftpd/vsftpd-implicit.conf and systemd service file will be vsftpd@vsftpd-implicit.service
+  * required: No
+  * default value : vsftpd
 
 
 # Usage

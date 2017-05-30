@@ -7,14 +7,20 @@
   yum: name={{ item }} state=installed update_cache=yes
   with_items:
     - vsftpd
+
+- name: copying vsftpd systemd service file
+  copy:
+    remote_src: true
+    src: /usr/lib/systemd/system/vsftpd@.service
+    dest: /etc/systemd/system/vsftpd@{{ vsftpd_systemd_service_name }}.service
   
 - name: configuring systemd for vsftpd
-  systemd: name=vsftpd daemon_reload=yes enabled=yes
+  systemd: name=vsftpd@{{ vsftpd_systemd_service_name }} daemon_reload=yes enabled=yes
  
 - name: configuring vsftpd instance
   template:
     src: vsftpd.conf.j2
-    dest: /etc/vsftpd/vsftpd.conf
+    dest: /etc/vsftpd/{{ vsftpd_systemd_service_name }}.conf
     owner: root
     group: root
     mode: 0750

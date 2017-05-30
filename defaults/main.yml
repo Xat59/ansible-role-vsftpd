@@ -9,4 +9,5 @@ vsftpd_ssl_enabled: false
 vsftpd_ssl_privkey: 
 vsftpd_ssl_certificate: 
 vsftpd_ssl_implicit:
+vsftpd_systemd_service_name: vsftpd
 ...
