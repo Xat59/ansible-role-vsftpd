@@ -17,7 +17,7 @@ Does not cover :
 # Role installation
 
 ```
-$ git clone https://github.com/Xat59/ansible-vsftpd
+$ git clone https://github.com/Xat59/ansible-role-vsftpd
 ```
 
 # Variables
@@ -75,7 +75,7 @@ $ git clone https://github.com/Xat59/ansible-vsftpd
 - hosts: host01
   gather_facts: yes
   become: yes
-    - role: vsftpd
+    - role: ansible-role-vsftpd
 ```
 
 - Secure FTP with explicit TLS (FTPes)
@@ -85,11 +85,11 @@ $ git clone https://github.com/Xat59/ansible-vsftpd
 - hosts: host01
   gather_facts: yes
   become: yes
-    - role: vsftpd
-    vsftpd_ssl_enabled: true
-    vsftpd_ssl_privkey: /etc/vsftpd/ssl/vsftpd.key
-    vsftpd_ssl_certificate: /etc/vsftpd/ssl/vsftpd.crt
-    vsftpd_ssl_implicit: false
+    - role: ansible-role-vsftpd
+      vsftpd_ssl_enabled: true
+      vsftpd_ssl_privkey: /etc/vsftpd/ssl/vsftpd.key
+      vsftpd_ssl_certificate: /etc/vsftpd/ssl/vsftpd.crt
+      vsftpd_ssl_implicit: false
 ```
 
 - Secure FTP with implicit TLS (FTPs)
@@ -99,11 +99,11 @@ $ git clone https://github.com/Xat59/ansible-vsftpd
 - hosts: host01
   gather_facts: yes
   become: yes
-    - role: vsftpd
-    vsftpd_ssl_enabled: true
-    vsftpd_ssl_privkey: /etc/vsftpd/ssl/vsftpd.key
-    vsftpd_ssl_certificate: /etc/vsftpd/ssl/vsftpd.crt
-    vsftpd_ssl_implicit: true
+    - role: ansible-role-vsftpd
+      vsftpd_ssl_enabled: true
+      vsftpd_ssl_privkey: /etc/vsftpd/ssl/vsftpd.key
+      vsftpd_ssl_certificate: /etc/vsftpd/ssl/vsftpd.crt
+      vsftpd_ssl_implicit: true
 ```
 
 
