@@ -1,0 +1,11 @@
+[Unit]
+Description=Vsftpd %I ftp daemon
+After=network.target
+PartOf=vsftpd.target
+
+[Service]
+Type=forking
+ExecStart=/usr/sbin/vsftpd /etc/vsftpd/%i.conf
+
+[Install]
+WantedBy=multi-user.target

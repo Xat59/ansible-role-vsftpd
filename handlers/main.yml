@@ -1,10 +1,10 @@
 ---
-- name: "restarting {{ vsftpd_systemd_service_name }} service"
+- name: "restarting specific {{ vsftpd_systemd_service_name }} service"
   service: 
     name: "vsftpd@{{ vsftpd_systemd_service_name }}"
     state: restarted
 
-- name: restarting vsftpd service"
+- name: restarting vsftpd service
   service: 
-    name: "vsftpd"
+    name: vsftpd
     state: restarted
