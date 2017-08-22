@@ -10,4 +10,5 @@ vsftpd_ssl_privkey:
 vsftpd_ssl_certificate: 
 vsftpd_ssl_implicit:
 vsftpd_systemd_service_name: vsftpd
+vsftpd_enable_virt_users: false
 ...

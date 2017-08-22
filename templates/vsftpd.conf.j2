@@ -23,10 +23,28 @@ listen_ipv6=NO
 
 # Uncomment this to allow local users to log in.
 # When SELinux is enforcing check for SE bool ftp_home_dir
-{% if vsftpd_enable_local_users == true %}
+{% if vsftpd_enable_local_users == true or vsftpd_enable_virt_users == true %}
 local_enable=YES
 {% else %}
 local_enable=NO
+{% endif %}
+
+# This powerful option allows the override of any config option specified in the manual page, 
+# on a per-user basis. Usage is simple, and is best illustrated with an example. 
+# If you set user_config_dir to be /etc/vsftpd_user_conf and then log on as the user "chris", 
+# then vsftpd will apply the settings in the file /etc/vsftpd_user_conf/chris for the duration 
+# of the session.
+user_config_dir=/etc/vsftpd/users.d/
+
+# If enabled, all non-anonymous logins are classed as "guest" logins. 
+# A guest login is remapped to the user specified in the guest_username setting.
+{% if vsftpd_enable_virt_users == true %}
+guest_enable=YES
+{% if vsftpd_guest_username is defined %}
+guest_username={{ vsftpd_guest_username }}
+{% endif %}
+{% else %}
+guest_enable=NO
 {% endif %}
 
 # Uncomment this to enable any form of FTP write command.

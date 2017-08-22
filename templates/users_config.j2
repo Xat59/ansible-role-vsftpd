@@ -1,0 +1,12 @@
+# {{ ansible_managed }}
+
+{% if item['local_root'] %}
+local_root={{ item['local_root'] }}
+{% endif %}
+{% if item['write_enable'] %}
+write_enable=YES
+{% endif %}
+{% if item['guest_username'] %}
+guest_username={{ item['guest_username'] }}
+{% endif %}
+virtual_use_local_privs=YES

@@ -2,3 +2,6 @@
 
 - include: install-redhat.yml
   when: ansible_os_family == 'RedHat'
+
+- include: virtual-users.yml
+  when: vsftpd_enable_virt_users

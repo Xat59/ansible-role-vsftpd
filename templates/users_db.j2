@@ -1,0 +1,10 @@
+# {{ ansible_managed }}
+
+{% if vsftpd_virt_users is defined %}
+{% for user in vsftpd_virt_users %}
+{% if user['username'] is defined and user['password'] is defined %}
+{{ user['username'] }}
+{{ user['password'] }}
+{% endif %}
+{% endfor %}
+{% endif %}

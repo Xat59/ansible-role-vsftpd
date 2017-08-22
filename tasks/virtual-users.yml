@@ -1,0 +1,56 @@
+---
+- name: creating users config directory
+  file:
+    state: directory
+    path: /etc/vsftpd/users.d/
+
+- name: creating users config
+  template:
+    src: users_config.j2
+    dest: "/etc/vsftpd/users.d/{{ item['username'] }}"
+  with_items:
+    - "{{ vsftpd_virt_users }}"
+  when: vsftpd_virt_users is defined
+
+- name: configuring pam for vsftpd virtual users 1/2
+  pamd:
+    name: vsftpd
+    new_type: auth
+    new_control: sufficient
+    new_module_path: pam_userdb.so
+    module_arguments: 'db=/etc/vsftpd/login'
+    state: before
+    type: session
+    control: optional
+    module_path: pam_keyinit.so
+
+- name: configuring pam for vsftpd virtual users 2/2
+  pamd:
+    name: vsftpd
+    new_type: account
+    new_control: sufficient
+    new_module_path: pam_userdb.so
+    module_arguments: 'db=/etc/vsftpd/login'
+    state: before
+    type: session
+    control: optional
+    module_path: pam_keyinit.so
+
+- name: adding virtual users to database
+  template:
+    src: users_db.j2
+    dest: /etc/vsftpd/login.txt
+    owner: root
+    group: root
+    mode: 0600
+
+- name: generating virtual users database
+  command: db_load -T -t hash -f /etc/vsftpd/login.txt /etc/vsftpd/login.db
+
+- name: changing mode for virtual users database
+  file:
+    state: file
+    path: /etc/vsftpd/login.db
+    owner: root
+    group: root
+    mode: 0600

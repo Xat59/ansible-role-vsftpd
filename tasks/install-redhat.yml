@@ -4,6 +4,7 @@
   yum: name={{ item }} state=installed update_cache=yes
   with_items:
     - vsftpd
+    - libdb-utils
 
 - name: "copying vsftpd systemd service file for {{ vsftpd_systemd_service_name }} instance"
   template:
