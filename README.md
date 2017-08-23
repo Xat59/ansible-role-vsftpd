@@ -78,17 +78,17 @@ $ git clone https://github.com/Xat59/ansible-role-vsftpd
   * required: No
   * default value : vsftpd
  
-  **Per-user available parameters** : 
-   * username : current virtual user username
-     * required : Yes
-   * password : current virtual user password
-     * required : Yes
-   * local_root : current virtual user home directory
-     * required : No
-   * write_enable : current virtual user write permission
-     * required : No
+    **Per-user available parameters** : 
+      * username : current virtual user username
+        * required : Yes
+      * password : current virtual user password
+        * required : Yes
+      * local_root : current virtual user home directory
+        * required : No
+      * write_enable : current virtual user write permission
+        * required : No
 
-  **Example**: see examples below.
+    **Example**: see examples below.
 
 
 # Usage
