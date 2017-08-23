@@ -76,7 +76,6 @@ $ git clone https://github.com/Xat59/ansible-role-vsftpd
 
 * **vsftpd_virt_users** : List of enabled virtual users with per-user parameter overwrites
   * required: No
-  * default value : vsftpd
  
     **Per-user available parameters** : 
       * username : current virtual user username
