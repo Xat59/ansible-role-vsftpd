@@ -4,6 +4,7 @@ Install and configure vsftpd FTP server.
 Features :
 
 - local users
+- virtual users
 - chrooting
 - unsecure / tls v1
 - explicit and implicit TLS
@@ -22,7 +23,7 @@ $ git clone https://github.com/Xat59/ansible-role-vsftpd
 
 # Variables
 
-* **vsftpd_enable_local_users** : Enable local users connection
+* **vsftpd_enable_local_users** : Enable local users connection <br /> **Note** : If **vsftpd_enable_virt_users** is 'true', the value of this variable will be overwrite to 'true'
   * required : No 
   * default value : true
   * choices : true or false
@@ -65,6 +66,30 @@ $ git clone https://github.com/Xat59/ansible-role-vsftpd
   * required: No
   * default value : vsftpd
 
+* **vsftpd_guest_username** : A guest (all non-anonymous) login is remapped to the real user specified in this setting.
+  * required: No
+
+* **vsftpd_enable_virt_users** : Enable virtual users on the vsftpd instance <br /> **Note**: setting this variable to 'true' will overwrite the vsftpd_chroot_local_users variable to 'true'.
+  * required : No. But, if you have to define virtual users via vsftpd_virt_users, you must set vsftpd_enable_virt_users to 'True'.
+  * default value : false
+  * choices : true or false
+
+* **vsftpd_virt_users** : List of enabled virtual users with per-user parameter overwrites
+  * required: No
+  * default value : vsftpd
+ 
+  **Per-user available parameters** : 
+   * username : current virtual user username
+     * required : Yes
+   * password : current virtual user password
+     * required : Yes
+   * local_root : current virtual user home directory
+     * required : No
+   * write_enable : current virtual user write permission
+     * required : No
+
+  **Example**: see examples below.
+
 
 # Usage
 
@@ -106,9 +131,29 @@ $ git clone https://github.com/Xat59/ansible-role-vsftpd
       vsftpd_ssl_implicit: true
 ```
 
+- Unsecure FTP with virtual users
+
+```
+---
+- hosts: host01
+  gather_facts: yes
+  become: yes
+    - role: ansible-role-vsftpd
+      vsftpd_enable_virt_users: true
+      vsftpd_virt_users:
+        - username: xat
+          password: xat
+          local_root: /var/www/
+          write_enable: yes
+          guest_username: www-data
+        - username: jdoe
+          password: jdoe
+          local_root: /var/www
+          write_enable: no
+```
+
 
 # Contribute
 
 ## Roadmap
 
-- virtual users creation
