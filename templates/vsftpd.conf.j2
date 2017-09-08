@@ -34,7 +34,11 @@ local_enable=NO
 # If you set user_config_dir to be /etc/vsftpd_user_conf and then log on as the user "chris", 
 # then vsftpd will apply the settings in the file /etc/vsftpd_user_conf/chris for the duration 
 # of the session.
+{% if vsftpd_systemd_service_name == 'vsftpd' %}
 user_config_dir=/etc/vsftpd/users.d/
+{% else %}
+user_config_dir=/etc/vsftpd/{{ vsftpd_systemd_service_name }}/users.d/
+{% endif %}
 
 # If enabled, all non-anonymous logins are classed as "guest" logins. 
 # A guest login is remapped to the user specified in the guest_username setting.
@@ -136,8 +140,10 @@ allow_writeable_chroot=NO
 ###
 # Auth
 ###
-{% if vsftpd_enable_local_users == true %}
+{% if vsftpd_enable_local_users == true and vsftpd_systemd_service_name == 'vsftpd' %}
 pam_service_name=vsftpd
+{% elif vsftpd_enable_local_users == true and vsftpd_systemd_service_name != 'vsftpd' %}
+pam_service_name={{ vsftpd_systemd_service_name }}
 {% endif %}
 
 ###

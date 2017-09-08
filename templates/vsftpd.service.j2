@@ -5,7 +5,7 @@ PartOf=vsftpd.target
 
 [Service]
 Type=forking
-ExecStart=/usr/sbin/vsftpd /etc/vsftpd/%i.conf
+ExecStart=/usr/sbin/vsftpd /etc/vsftpd/%i/vsftpd.conf
 
 [Install]
 WantedBy=multi-user.target
