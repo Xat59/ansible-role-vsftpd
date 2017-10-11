@@ -134,8 +134,12 @@ chroot_local_user=YES
 {% else %}
 chroot_local_user=NO
 {% endif %}
-allow_writeable_chroot=NO
 
+{% if vsftpd_allow_writeable_chroot == true %}
+allow_writeable_chroot=YES
+{% else %}
+allow_writeable_chroot=NO
+{% endif %}
 
 ###
 # Auth
