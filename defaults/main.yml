@@ -1,6 +1,7 @@
 ---
 vsftpd_enable_local_users: true
 vsftpd_chroot_local_users: false
+vsftpd_allow_writeable_chroot: false
 vsftpd_ftp_banner: Private FTP server
 vsftpd_passive_min_port: 
 vsftpd_passive_max_port: 
