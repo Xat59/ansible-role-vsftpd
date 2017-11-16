@@ -76,7 +76,6 @@ $ git clone https://github.com/Xat59/ansible-role-vsftpd
 
 * **vsftpd_virt_users** : List of enabled virtual users with per-user parameter overwrites
   * required: No
-  * default value : vsftpd
  
     **Per-user available parameters** : 
       * username : current virtual user username
@@ -86,6 +85,8 @@ $ git clone https://github.com/Xat59/ansible-role-vsftpd
       * local_root : current virtual user home directory
         * required : No
       * write_enable : current virtual user write permission
+        * required : No
+      * guest_username : current virtual user remapping to the specified local user
         * required : No
 
     **Example**: see examples below.
@@ -143,11 +144,12 @@ $ git clone https://github.com/Xat59/ansible-role-vsftpd
       vsftpd_virt_users:
         - username: xat
           password: xat
+          guest_username: www-data
           local_root: /var/www/
           write_enable: yes
-          guest_username: www-data
         - username: jdoe
           password: jdoe
+          guest_username: www-data
           local_root: /var/www
           write_enable: no
 ```

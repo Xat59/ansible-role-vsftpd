@@ -26,18 +26,24 @@
     dest: /etc/vsftpd/vsftpd.conf
     owner: root
     group: root
-    mode: 0750
+    mode: 0660
   notify:
     - restarting vsftpd service
   when: vsftpd_systemd_service_name == 'vsftpd'
 
+- name: "creating {{ vsftpd_systemd_service_name }} configuration directory"
+  file:
+    state: directory
+    path: "/etc/vsftpd/{{ vsftpd_systemd_service_name }}/"
+  when: vsftpd_systemd_service_name != 'vsftpd'
+
 - name: "configuring {{ vsftpd_systemd_service_name }} instance"
   template:
     src: vsftpd.conf.j2
-    dest: /etc/vsftpd/{{ vsftpd_systemd_service_name }}.conf
+    dest: /etc/vsftpd/{{ vsftpd_systemd_service_name }}/vsftpd.conf
     owner: root
     group: root
     mode: 0750
   notify:
-    - "restarting specific {{ vsftpd_systemd_service_name }} service"
+    - "restarting {{ vsftpd_systemd_service_name }} service"
   when: vsftpd_systemd_service_name != 'vsftpd'
