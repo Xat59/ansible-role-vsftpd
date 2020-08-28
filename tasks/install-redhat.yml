@@ -10,8 +10,9 @@
   template:
     src: vsftpd.service.j2
     dest: /etc/systemd/system/vsftpd@{{ vsftpd_systemd_service_name }}.service
+    mode: '664'
   when: vsftpd_systemd_service_name != 'vsftpd'
-  
+
 - name: "configuring systemd for {{ vsftpd_systemd_service_name }} instance"
   systemd: name=vsftpd@{{ vsftpd_systemd_service_name }} daemon_reload=yes enabled=yes
   when: vsftpd_systemd_service_name != 'vsftpd'
@@ -19,7 +20,7 @@
 - name: configuring systemd for vsftpd
   systemd: name=vsftpd daemon_reload=yes enabled=yes
   when: vsftpd_systemd_service_name == 'vsftpd'
- 
+
 - name: configuring vsftpd instance
   template:
     src: vsftpd.conf.j2
@@ -35,6 +36,7 @@
   file:
     state: directory
     path: "/etc/vsftpd/{{ vsftpd_systemd_service_name }}/"
+    mode: '775'
   when: vsftpd_systemd_service_name != 'vsftpd'
 
 - name: "configuring {{ vsftpd_systemd_service_name }} instance"

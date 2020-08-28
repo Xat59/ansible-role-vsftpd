@@ -3,21 +3,24 @@
   file:
     state: directory
     path: /etc/vsftpd/users.d/
+    mode: '775'
   when: vsftpd_systemd_service_name == 'vsftpd'
 
 - name: "creating {{ vsftpd_systemd_service_name }} users config directory"
   file:
     state: directory
     path: "/etc/vsftpd/{{ vsftpd_systemd_service_name }}/users.d/"
+    mode: '775'
   when: vsftpd_systemd_service_name != 'vsftpd'
 
 - name: creating default users config
   template:
     src: users_config.j2
     dest: "/etc/vsftpd/users.d/{{ item['username'] }}"
+    mode: '644'
   with_items:
     - "{{ vsftpd_virt_users }}"
-  when: 
+  when:
     - vsftpd_virt_users is defined
     - vsftpd_systemd_service_name == 'vsftpd'
   notify: restarting vsftpd service
@@ -25,10 +28,12 @@
 - name: "creating {{ vsftpd_systemd_service_name }} users config"
   template:
     src: users_config.j2
-    dest: "/etc/vsftpd/{{ vsftpd_systemd_service_name }}/users.d/{{ item['username'] }}"
+    dest: "/etc/vsftpd/{{ vsftpd_systemd_service_name }}/ \
+      users.d/{{ item['username'] }}"
+    mode: '644'
   with_items:
     - "{{ vsftpd_virt_users }}"
-  when: 
+  when:
     - vsftpd_virt_users is defined
     - vsftpd_systemd_service_name != 'vsftpd'
   notify: "restarting {{ vsftpd_systemd_service_name }} service"
@@ -59,33 +64,8 @@
     module_path: pam_keyinit.so
   when: vsftpd_systemd_service_name == 'vsftpd'
 
-#- name: "configuring pam for {{ vsftpd_systemd_service_name }} vsftpd virtual users 1/2"
-#  pamd:
-#    name: vsftpd
-#    new_type: auth
-#    new_control: sufficient
-#    new_module_path: pam_userdb.so
-#    module_arguments: "db=/etc/vsftpd/{{ vsftpd_systemd_service_name }}/login"
-#    state: before
-#    type: session
-#    control: optional
-#    module_path: pam_keyinit.so
-#  when: vsftpd_systemd_service_name != 'vsftpd'
-#
-#- name: "configuring pam for {{ vsftpd_systemd_service_name }} vsftpd virtual users 2/2"
-#  pamd:
-#    name: vsftpd
-#    new_type: account
-#    new_control: sufficient
-#    new_module_path: pam_userdb.so
-#    module_arguments: "db=/etc/vsftpd/{{ vsftpd_systemd_service_name }}/login"
-#    state: before
-#    type: session
-#    control: optional
-#    module_path: pam_keyinit.so
-#  when: vsftpd_systemd_service_name != 'vsftpd'
-
-- name: "configuring pam for  {{ vsftpd_systemd_service_name }} vsftpd virtual users"
+- name: "configuring pam for {{ vsftpd_systemd_service_name }} \
+vsftpd virtual users"
   template:
     src: vsftpd_pam.j2
     dest: "/etc/pam.d/{{ vsftpd_systemd_service_name }}"
@@ -103,7 +83,7 @@
     mode: 0600
   when: vsftpd_systemd_service_name == 'vsftpd'
 
-- name: "adding virtual users to {{ vsftpd_systemd_service_name }} database"
+- name: "adding virtual users to {{ vsftpd_systemd_service_name }}"
   template:
     src: users_db.j2
     dest: "/etc/vsftpd/{{ vsftpd_systemd_service_name }}/login.txt"
@@ -112,7 +92,7 @@
     mode: 0600
   when: vsftpd_systemd_service_name != 'vsftpd'
 
-- name: generating default virtual users database 
+- name: generating default virtual users database
   command: db_load -T -t hash -f /etc/vsftpd/login.txt /etc/vsftpd/login.db
   when: vsftpd_systemd_service_name == 'vsftpd'
   notify: restarting vsftpd service

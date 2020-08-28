@@ -1,12 +1,14 @@
 galaxy_info:
-  author: "Jérémy Descamps"
+  author: "Xat59"
   license: BSD
   min_ansible_version: 2.0
 
-  plateforms:
+  description: Install and configure vsftpd FTP server.
+
+  platforms:
   - name: EL
     version:
       - 7
-  categories:
+  galaxy_tags:
     - ftp
 dependencies: []
