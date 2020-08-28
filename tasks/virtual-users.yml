@@ -36,7 +36,7 @@
   when:
     - vsftpd_virt_users is defined
     - vsftpd_systemd_service_name != 'vsftpd'
-  notify: "restarting {{ vsftpd_systemd_service_name }} service"
+  notify: "restarting specific {{ vsftpd_systemd_service_name }} service"
 
 - name: configuring pam for default vsftpd virtual users 1/2
   pamd:
@@ -111,7 +111,7 @@ vsftpd virtual users"
   -f /etc/vsftpd/{{ vsftpd_systemd_service_name }}/login.txt \
   /etc/vsftpd/{{ vsftpd_systemd_service_name }}/login.db"
   when: vsftpd_systemd_service_name != 'vsftpd'
-  notify: "restarting {{ vsftpd_systemd_service_name }} service"
+  notify: "restarting specific {{ vsftpd_systemd_service_name }} service"
 
 - name: changing mode for default virtual users database
   file:
