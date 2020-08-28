@@ -3,12 +3,12 @@ vsftpd_enable_local_users: true
 vsftpd_chroot_local_users: false
 vsftpd_allow_writeable_chroot: false
 vsftpd_ftp_banner: Private FTP server
-vsftpd_passive_min_port: 
-vsftpd_passive_max_port: 
-vsftpd_passive_address: 
+vsftpd_passive_min_port:
+vsftpd_passive_max_port:
+vsftpd_passive_address:
 vsftpd_ssl_enabled: false
-vsftpd_ssl_privkey: 
-vsftpd_ssl_certificate: 
+vsftpd_ssl_privkey:
+vsftpd_ssl_certificate:
 vsftpd_ssl_implicit:
 vsftpd_systemd_service_name: vsftpd
 vsftpd_enable_virt_users: false

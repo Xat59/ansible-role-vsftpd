@@ -8,6 +8,9 @@
       apt: update_cache=true cache_valid_time=600
       when: ansible_os_family == 'Debian'
 
+  roles:
+    - role: xat59.vsftpd
+
   post_tasks:
     - name: Ensure vsftpd is running.
       wait_for:
