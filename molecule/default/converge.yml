@@ -1,0 +1,17 @@
+---
+- name: Converge
+  hosts: all
+  become: true
+
+  pre_tasks:
+    - name: Update apt cache.
+      apt: update_cache=true cache_valid_time=600
+      when: ansible_os_family == 'Debian'
+
+  post_tasks:
+    - name: Ensure vsftpd is running.
+      wait_for:
+        port: 21
+        host: localhost
+      retries: 60
+      delay: 1
