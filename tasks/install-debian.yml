@@ -1,7 +1,10 @@
 ---
 
 - name: installing vsftpd package
-  apt: name={{ item }} state=installed update_cache=yes
+  apt:
+    name: "{{ item }}"
+    state: present
+    update_cache: true
   with_items:
     - vsftpd
 
@@ -21,7 +24,10 @@
   when: vsftpd_systemd_service_name != 'vsftpd'
 
 - name: configuring systemd for vsftpd
-  systemd: name=vsftpd daemon_reload=yes enabled=yes
+  systemd:
+    name: vsftpd
+    daemon_reload: true
+    enabled: true
   when: vsftpd_systemd_service_name == 'vsftpd'
 
 - name: configuring vsftpd instance

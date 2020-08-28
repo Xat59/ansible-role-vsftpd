@@ -1,7 +1,10 @@
 ---
 
 - name: installing vsftpd package
-  yum: name={{ item }} state=installed update_cache=yes
+  yum:
+    name: "{{ item }}"
+    state: present
+    update_cache: true
   with_items:
     - vsftpd
     - libdb-utils
@@ -23,7 +26,10 @@ for {{ vsftpd_systemd_service_name }}"
   when: vsftpd_systemd_service_name != 'vsftpd'
 
 - name: configuring systemd for vsftpd
-  systemd: name=vsftpd daemon_reload=yes enabled=yes
+  systemd:
+    name: vsftpd
+    daemon_reload: true
+    enabled: true
   when: vsftpd_systemd_service_name == 'vsftpd'
 
 - name: configuring vsftpd instance
