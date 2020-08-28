@@ -1,15 +1,24 @@
 ---
 galaxy_info:
-  author: "Xat59"
+  role_name: vsftpd
+  author: xat59
+  description: Install and configure vsftpd FTP server.
   license: BSD
   min_ansible_version: 2.0
-
-  description: Install and configure vsftpd FTP server.
-
   platforms:
     - name: EL
       version:
         - 7
+        - 8
+    - name: Debian
+      versions:
+        - jessie
+    - name: Ubuntu
+      versions:
+        - precise
+        - trusty
+        - xenial
   galaxy_tags:
     - ftp
+    - ftps
 dependencies: []
