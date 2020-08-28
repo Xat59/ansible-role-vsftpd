@@ -1,3 +1,4 @@
+---
 galaxy_info:
   author: "Xat59"
   license: BSD
@@ -6,9 +7,9 @@ galaxy_info:
   description: Install and configure vsftpd FTP server.
 
   platforms:
-  - name: EL
-    version:
-      - 7
+    - name: EL
+      version:
+        - 7
   galaxy_tags:
     - ftp
 dependencies: []

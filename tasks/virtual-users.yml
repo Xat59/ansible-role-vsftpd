@@ -107,7 +107,9 @@ vsftpd virtual users"
   when: vsftpd_systemd_service_name != 'vsftpd'
 
 - name: "generating {{ vsftpd_systemd_service_name }} virtual users database"
-  command: "db_load -T -t hash -f /etc/vsftpd/{{ vsftpd_systemd_service_name }}/login.txt /etc/vsftpd/{{ vsftpd_systemd_service_name }}/login.db"
+  command: "db_load -T -t hash \
+  -f /etc/vsftpd/{{ vsftpd_systemd_service_name }}/login.txt \
+  /etc/vsftpd/{{ vsftpd_systemd_service_name }}/login.db"
   when: vsftpd_systemd_service_name != 'vsftpd'
   notify: "restarting {{ vsftpd_systemd_service_name }} service"
 
@@ -120,7 +122,8 @@ vsftpd virtual users"
     mode: 0600
   when: vsftpd_systemd_service_name == 'vsftpd'
 
-- name: "changing mode for {{ vsftpd_systemd_service_name }} virtual users database"
+- name: "changing mode for \
+{{ vsftpd_systemd_service_name }} virtual users database"
   file:
     state: file
     path: "/etc/vsftpd/{{ vsftpd_systemd_service_name }}/login.db"

@@ -6,15 +6,20 @@
     - vsftpd
     - libdb-utils
 
-- name: "copying vsftpd systemd service file for {{ vsftpd_systemd_service_name }} instance"
+- name: "copying vsftpd systemd service file \
+for {{ vsftpd_systemd_service_name }}"
   template:
     src: vsftpd.service.j2
     dest: /etc/systemd/system/vsftpd@{{ vsftpd_systemd_service_name }}.service
     mode: '664'
   when: vsftpd_systemd_service_name != 'vsftpd'
 
-- name: "configuring systemd for {{ vsftpd_systemd_service_name }} instance"
-  systemd: name=vsftpd@{{ vsftpd_systemd_service_name }} daemon_reload=yes enabled=yes
+- name: "configuring systemd \
+for {{ vsftpd_systemd_service_name }}"
+  systemd:
+    name: "vsftpd@{{ vsftpd_systemd_service_name }}"
+    daemon_reload: true
+    enabled: true
   when: vsftpd_systemd_service_name != 'vsftpd'
 
 - name: configuring systemd for vsftpd
