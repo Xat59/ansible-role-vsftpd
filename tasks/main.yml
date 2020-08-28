@@ -5,3 +5,6 @@
 
 - include: install-debian.yml
   when: ansible_os_family == 'Debian'
+
+- include: virtual-users.yml
+  when: vsftpd_enable_virt_users
