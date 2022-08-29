@@ -6,6 +6,12 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        image:
+          - debian
+          - centos
+          - ubuntu
     steps:
       - name: checkout
         uses: actions/checkout@v2
@@ -13,6 +19,9 @@ jobs:
           path: "${{ github.repository }}"
       - name: molecule
         uses: robertdebock/molecule-action@4.0.7
+        with:
+          image: "${{ matrix.image }}"
+          options: parallel
   release:
     needs:
       - test
