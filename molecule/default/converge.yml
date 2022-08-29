@@ -9,7 +9,7 @@
       when: ansible_os_family == 'Debian'
 
   roles:
-    - role: xat59.vsftpd
+    - role: ansible-role-vsftpd
 
   post_tasks:
     - name: Ensure vsftpd is running.
