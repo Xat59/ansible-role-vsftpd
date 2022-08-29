@@ -4,29 +4,13 @@ on:
   - push
 
 jobs:
-  test:
+  release:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        image:
-          - debian
-          - centos
-          - ubuntu
     steps:
       - name: checkout
         uses: actions/checkout@v2
         with:
           path: "${{ github.repository }}"
-      - name: molecule
-        uses: robertdebock/molecule-action@4.0.7
-        with:
-          image: "${{ matrix.image }}"
-          options: parallel
-  release:
-    needs:
-      - test
-    runs-on: ubuntu-latest
-    steps:
       - name: galaxy
         uses: robertdebock/galaxy-action@1.2.0
         with:
