@@ -41,14 +41,11 @@
 - name: configuring pam for default vsftpd virtual users 1/2
   pamd:
     name: vsftpd
-    new_type: auth
-    new_control: sufficient
-    new_module_path: pam_userdb.so
+    type: auth
+    control: sufficient
+    module_path: pam_userdb.so
     module_arguments: 'db=/etc/vsftpd/login'
-    state: before
-    type: session
-    control: optional
-    module_path: pam_keyinit.so
+    state: updated
   when: vsftpd_systemd_service_name == 'vsftpd'
 
 - name: configuring pam for default vsftpd virtual users 2/2
@@ -58,10 +55,10 @@
     new_control: sufficient
     new_module_path: pam_userdb.so
     module_arguments: 'db=/etc/vsftpd/login'
-    state: before
-    type: session
-    control: optional
-    module_path: pam_keyinit.so
+    state: after
+    type: auth
+    control: sufficient
+    module_path: pam_userdb.so
   when: vsftpd_systemd_service_name == 'vsftpd'
 
 - name: "configuring pam for {{ vsftpd_systemd_service_name }} \
