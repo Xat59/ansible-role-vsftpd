@@ -88,10 +88,13 @@ vsftpd virtual users"
     group: root
     mode: 0600
   when: vsftpd_systemd_service_name != 'vsftpd'
+  register: virtual_user_db
 
 - name: generating default virtual users database
   command: db_load -T -t hash -f /etc/vsftpd/login.txt /etc/vsftpd/login.db
-  when: vsftpd_systemd_service_name == 'vsftpd'
+  when:
+    - vsftpd_systemd_service_name == 'vsftpd'
+    - virtual_user_db['changed']
   notify: restarting vsftpd service
 
 - name: "creating empty {{ vsftpd_systemd_service_name }} login file"
