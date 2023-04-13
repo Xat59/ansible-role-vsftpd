@@ -39,9 +39,9 @@
   notify: "restarting specific {{ vsftpd_systemd_service_name }} service"
 
 - name: configuring pam for default vsftpd virtual users 1/2
-  pamd:
+  community.general.pamd:
     name: vsftpd
-    new_type: auth
+    new_type: account
     new_control: sufficient
     new_module_path: pam_userdb.so
     module_arguments: 'db=/etc/vsftpd/login'
@@ -52,16 +52,16 @@
   when: vsftpd_systemd_service_name == 'vsftpd'
 
 - name: configuring pam for default vsftpd virtual users 2/2
-  pamd:
+  community.general.pamd:
     name: vsftpd
-    new_type: account
+    new_type: auth
     new_control: sufficient
     new_module_path: pam_userdb.so
     module_arguments: 'db=/etc/vsftpd/login'
     state: before
-    type: session
-    control: optional
-    module_path: pam_keyinit.so
+    type: account
+    control: sufficient
+    module_path: pam_userdb.so
   when: vsftpd_systemd_service_name == 'vsftpd'
 
 - name: "configuring pam for {{ vsftpd_systemd_service_name }} \
