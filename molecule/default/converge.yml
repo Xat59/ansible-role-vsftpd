@@ -1,0 +1,16 @@
+---
+- name: 'Converge'
+  hosts: 'all'
+  vars:
+    vsftpd_enable_virt_users: true
+    vsftpd_chroot_local_users: true
+    vsftpd_virt_users:
+      - username: 'user'
+        guest_username: 'user'
+        password: 'password'
+        local_root: '/tmp'
+        write_enable: false
+  tasks:
+    - name: 'Run role'
+      ansible.builtin.import_role:
+        name: "{{ lookup('env', 'MOLECULE_PROJECT_DIRECTORY') | basename }}"
