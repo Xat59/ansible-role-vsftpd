@@ -12,4 +12,5 @@ vsftpd_ssl_certificate:
 vsftpd_ssl_implicit:
 vsftpd_systemd_service_name: vsftpd
 vsftpd_enable_virt_users: false
+vsftpd_no_log: true
 ...

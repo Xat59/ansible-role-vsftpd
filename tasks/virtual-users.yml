@@ -24,6 +24,7 @@
     - vsftpd_virt_users is defined
     - vsftpd_systemd_service_name == 'vsftpd'
   notify: restarting vsftpd service
+  no_log: "{{ vsftpd_no_log }}"
 
 - name: "creating {{ vsftpd_systemd_service_name }} users config"
   template:
@@ -37,6 +38,7 @@
     - vsftpd_virt_users is defined
     - vsftpd_systemd_service_name != 'vsftpd'
   notify: "restarting specific {{ vsftpd_systemd_service_name }} service"
+  no_log: "{{ vsftpd_no_log }}"
 
 - name: configuring pam for default vsftpd virtual users 1/2
   community.general.pamd:
