@@ -74,6 +74,11 @@ $ git clone https://github.com/Xat59/ansible-role-vsftpd
   * default value : false
   * choices : true or false
 
+* **vsftpd_no_log** : Disable logging of tasks that handle sensitive information
+  * required : No.
+  * default value : true
+  * choices : true or false
+
 * **vsftpd_virt_users** : List of enabled virtual users with per-user parameter overwrites
   * required: No
  

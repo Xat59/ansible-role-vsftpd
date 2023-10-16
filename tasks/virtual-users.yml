@@ -24,6 +24,7 @@
     - vsftpd_virt_users is defined
     - vsftpd_systemd_service_name == 'vsftpd'
   notify: restarting vsftpd service
+  no_log: "{{ vsftpd_no_log }}"
 
 - name: "creating {{ vsftpd_systemd_service_name }} users config"
   template:
@@ -37,6 +38,7 @@
     - vsftpd_virt_users is defined
     - vsftpd_systemd_service_name != 'vsftpd'
   notify: "restarting specific {{ vsftpd_systemd_service_name }} service"
+  no_log: "{{ vsftpd_no_log }}"
 
 - name: configuring pam for default vsftpd virtual users 1/2
   community.general.pamd:
@@ -82,6 +84,7 @@ vsftpd virtual users"
     group: root
     mode: 0600
   when: vsftpd_systemd_service_name == 'vsftpd'
+  register: vsftpd_db_default
 
 - name: "adding virtual users to {{ vsftpd_systemd_service_name }}"
   template:
@@ -91,26 +94,22 @@ vsftpd virtual users"
     group: root
     mode: 0600
   when: vsftpd_systemd_service_name != 'vsftpd'
+  register: vsftpd_db_custom
 
 - name: generating default virtual users database
   command: db_load -T -t hash -f /etc/vsftpd/login.txt /etc/vsftpd/login.db
-  when: vsftpd_systemd_service_name == 'vsftpd'
+  when:
+    - vsftpd_systemd_service_name == 'vsftpd'
+    - vsftpd_db_default['changed']
   notify: restarting vsftpd service
-
-- name: "creating empty {{ vsftpd_systemd_service_name }} login file"
-  file:
-    state: touch
-    path: "/etc/vsftpd/{{ vsftpd_systemd_service_name }}/login.txt"
-    owner: root
-    group: root
-    mode: 0600
-  when: vsftpd_systemd_service_name != 'vsftpd'
 
 - name: "generating {{ vsftpd_systemd_service_name }} virtual users database"
   command: "db_load -T -t hash \
   -f /etc/vsftpd/{{ vsftpd_systemd_service_name }}/login.txt \
   /etc/vsftpd/{{ vsftpd_systemd_service_name }}/login.db"
-  when: vsftpd_systemd_service_name != 'vsftpd'
+  when:
+    - vsftpd_systemd_service_name != 'vsftpd'
+    - vsftpd_db_custom['changed']
   notify: "restarting specific {{ vsftpd_systemd_service_name }} service"
 
 - name: changing mode for default virtual users database
