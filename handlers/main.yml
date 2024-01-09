@@ -1,10 +1,10 @@
 ---
 - name: "restarting specific {{ vsftpd_systemd_service_name }} service"
-  service:
+  ansible.builtin.service:
     name: "vsftpd@{{ vsftpd_systemd_service_name }}"
     state: restarted
 
 - name: restarting vsftpd service
-  service:
+  ansible.builtin.service:
     name: vsftpd
     state: restarted
