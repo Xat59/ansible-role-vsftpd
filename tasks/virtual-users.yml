@@ -1,20 +1,20 @@
 ---
 - name: creating default users config directory
-  file:
+  ansible.builtin.file:
     state: directory
     path: /etc/vsftpd/users.d/
     mode: '775'
   when: vsftpd_systemd_service_name == 'vsftpd'
 
 - name: "creating {{ vsftpd_systemd_service_name }} users config directory"
-  file:
+  ansible.builtin.file:
     state: directory
     path: "/etc/vsftpd/{{ vsftpd_systemd_service_name }}/users.d/"
     mode: '775'
   when: vsftpd_systemd_service_name != 'vsftpd'
 
 - name: creating default users config
-  template:
+  ansible.builtin.template:
     src: users_config.j2
     dest: "/etc/vsftpd/users.d/{{ item['username'] }}"
     mode: '644'
@@ -27,7 +27,7 @@
   no_log: "{{ vsftpd_no_log }}"
 
 - name: "creating {{ vsftpd_systemd_service_name }} users config"
-  template:
+  ansible.builtin.template:
     src: users_config.j2
     dest: "/etc/vsftpd/{{ vsftpd_systemd_service_name }}/ \
       users.d/{{ item['username'] }}"
@@ -68,7 +68,7 @@
 
 - name: "configuring pam for {{ vsftpd_systemd_service_name }} \
 vsftpd virtual users"
-  template:
+  ansible.builtin.template:
     src: vsftpd_pam.j2
     dest: "/etc/pam.d/{{ vsftpd_systemd_service_name }}"
     owner: root
@@ -77,7 +77,7 @@ vsftpd virtual users"
   when: vsftpd_systemd_service_name != 'vsftpd'
 
 - name: adding virtual users to default database
-  template:
+  ansible.builtin.template:
     src: users_db.j2
     dest: /etc/vsftpd/login.txt
     owner: root
@@ -87,7 +87,7 @@ vsftpd virtual users"
   register: vsftpd_db_default
 
 - name: "adding virtual users to {{ vsftpd_systemd_service_name }}"
-  template:
+  ansible.builtin.template:
     src: users_db.j2
     dest: "/etc/vsftpd/{{ vsftpd_systemd_service_name }}/login.txt"
     owner: root
@@ -97,14 +97,14 @@ vsftpd virtual users"
   register: vsftpd_db_custom
 
 - name: generating default virtual users database
-  command: db_load -T -t hash -f /etc/vsftpd/login.txt /etc/vsftpd/login.db
+  ansible.builtin.command: db_load -T -t hash -f /etc/vsftpd/login.txt /etc/vsftpd/login.db
   when:
     - vsftpd_systemd_service_name == 'vsftpd'
     - vsftpd_db_default['changed']
   notify: restarting vsftpd service
 
 - name: "generating {{ vsftpd_systemd_service_name }} virtual users database"
-  command: "db_load -T -t hash \
+  ansible.builtin.command: "db_load -T -t hash \
   -f /etc/vsftpd/{{ vsftpd_systemd_service_name }}/login.txt \
   /etc/vsftpd/{{ vsftpd_systemd_service_name }}/login.db"
   when:
@@ -113,7 +113,7 @@ vsftpd virtual users"
   notify: "restarting specific {{ vsftpd_systemd_service_name }} service"
 
 - name: changing mode for default virtual users database
-  file:
+  ansible.builtin.file:
     state: file
     path: /etc/vsftpd/login.db
     owner: root
@@ -123,7 +123,7 @@ vsftpd virtual users"
 
 - name: "changing mode for \
 {{ vsftpd_systemd_service_name }} virtual users database"
-  file:
+  ansible.builtin.file:
     state: file
     path: "/etc/vsftpd/{{ vsftpd_systemd_service_name }}/login.db"
     owner: root
